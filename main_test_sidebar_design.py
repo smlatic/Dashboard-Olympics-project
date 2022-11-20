@@ -10,7 +10,7 @@ import plotly.express as px
 
 
 # Loat the dataset
-olympicdata = pd.read_csv("../Projekt/Data/athlete_events.csv")
+olympicdata = pd.read_csv("Data/athlete_events.csv")
 
 
 # Create the Dash app
