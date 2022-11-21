@@ -21,6 +21,9 @@ olympicdata = pd.read_csv("Data/athlete_events.csv")
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
+# Simple side bar
+# https://dash-bootstrap-components.opensource.faculty.ai/examples/simple-sidebar/
+
 
 # the style arguments for the sidebar
 SIDEBAR_STYLE = {
