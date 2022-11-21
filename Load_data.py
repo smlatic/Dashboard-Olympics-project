@@ -1,7 +1,10 @@
 import pandas as pd
 
-class Load_data:
+class load_data:
+    
+    olympic_data = None
+
+    
     @classmethod
     def load(cls):
-        os_data = pd.read_csv("Data/athlete_events.csv")
-        return os_data
+        cls.olympic_data = pd.read_csv("Data/athlete_events.csv")
