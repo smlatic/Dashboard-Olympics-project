@@ -6,7 +6,8 @@ import pandas as pd
 import plotly.express as px
 from Load_data import Load_data
 
-from plotly_graphs import plotly_graphs
+from plotly_graphs import General
+from plotly_graphs import Finland
 
 
 
@@ -14,6 +15,8 @@ from plotly_graphs import plotly_graphs
 # Loat the dataset
 
 Load_data.load()
+
+Finland.initialize()
 
 olympic_data = Load_data.olympic_data
 
@@ -42,7 +45,7 @@ layout2 = html.Div(
         html.H3(children="graf 2", style={"textAlign": "center", "color": "#636EFA"}),
         dcc.Graph(
             id="rpdr_graph2",
-            figure=plotly_graphs.graphfig(),
+            figure=Finland.graphfig(),
         ),
     ]
 )
