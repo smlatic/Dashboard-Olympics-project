@@ -15,43 +15,58 @@ from plotly_graphs import Finland
 # Loat the dataset
 
 Load_data.load()
-
 Finland.initialize()
 
-olympic_data = Load_data.olympic_data
-
 # initialize dash app
-app = Dash(name=__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(name=__name__, external_stylesheets=[dbc.themes.LUX])
 
 
-
-##############################################################################################################
-
-##############################################################################################################
 
 # Define layouts for each page
-layout1 = html.Div(
+layout_general = html.Div(
     [
         html.H3(
-            children="Male Female contestants in various countries",
+            children="General Overlook of olympic statistics",
             style={"textAlign": "center", "color": "#636EFA"},
         ),
+        
         dcc.Graph(id="noc-graph", figure={})
     ]
 )
 
-layout2 = html.Div(
+layout_finland = html.Div(
     [
-        html.H3(children="graf 2", style={"textAlign": "center", "color": "#636EFA"}),
+        html.H3(
+            children="Olympic statistics for Finland",
+            style={"textAlign": "center", "color": "#636EFA"},
+        ),
+        
         dcc.Graph(
-            id="rpdr_graph2",
-            figure=Finland.graphfig(),
+            id="medal_distribution_sports_finland",
+            figure=Finland.medal_distribution_sports_finland(),
+        ),
+        
+        dcc.Graph(
+            id="medal_distribution_olympics_finland",
+            figure=Finland.medal_distribution_olympics_finland(),
+        ),
+
+        dcc.Graph(
+            id="age_distribution_olympics_finland",
+            figure=Finland.age_distribution_olympics_finland(),
+        ),
+        
+        dcc.Graph(
+            id="height_distribution_olympics_finland",
+            figure=Finland.height_distribution_olympics_finland(),
+        ),
+        
+        dcc.Graph(
+            id="weight_distribution_olympics_finland",
+            figure=Finland.weight_distribution_olympics_finland(),
         ),
     ]
 )
-
-
-
 
 
 # Simple side bar
@@ -77,14 +92,14 @@ CONTENT_STYLE = {
 }
 
 # define sidebar section of HTML
-sidebar = html.Div(
-    [
+sidebar = html.Div([
         # html.H2("Drag Race: Plotly Dashboard", className="display-4"),
         html.Img(
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Olympic_rings_without_rims.svg/1200px-Olympic_rings_without_rims.svg.png",
-            style={'height':'25%'}),
+            style={'height':'22%'}),
         html.Hr(),
         html.P("Olympic Games stats", className="lead"),
+        
         dbc.Nav(
             [
                 dbc.NavLink("General", href="/", active="exact"),
@@ -102,17 +117,18 @@ content = html.Div(id="page-content", style=CONTENT_STYLE)
 
 
 # INDEX LAYOUT
-app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
+app.layout = html.Div(children=[dcc.Location(id="url"), sidebar, content])
 
 # INDEX CALLBACKS
 @app.callback(
     Output("page-content", "children"),
-    Input("url", "pathname"))
+    Input("url", "pathname")
+)
 def render_page_content(pathname):
     if pathname == "/":
-        return layout1
+        return layout_general
     elif pathname == "/page-1":
-        return layout2
+        return layout_finland
 
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
