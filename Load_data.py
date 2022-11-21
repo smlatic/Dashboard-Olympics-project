@@ -3,7 +3,9 @@ import pandas as pd
 class load_data:
     
     olympic_data = None
-
+    
+    
+    ###
     
     @classmethod
     def load(cls):
