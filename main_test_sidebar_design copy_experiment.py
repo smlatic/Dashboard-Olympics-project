@@ -9,8 +9,38 @@ import pandas as pd
 import plotly.express as px
 
 
+from Load_data import Load_data
+
+
 # Loat the dataset
 olympicdata = pd.read_csv("Data/athlete_events.csv")
+olympic_data = Load_data.load()
+
+##################---------TEEEEEEEEEEEST------###############
+
+sports = ["Basketball", "Football", "Ice Hockey"]
+
+# Loop through each of the sports we selected and create graphs
+for sport in sports:
+    # drop all rows that dont involve our sport
+    olympic_data_sport = olympic_data.drop(
+        olympic_data[olympic_data["Sport"] != sport].index
+    )
+
+    # get all medals (remove nan's)
+    olympic_data_sport_with_medals = olympic_data_sport[
+        olympic_data_sport["Medal"].notna()
+    ]
+
+    # Group by 'NOC' and count all medals
+    medals_per_country_sport = olympic_data_sport_with_medals.groupby("NOC")[
+        "Medal"
+    ].count()
+
+    medals_per_country_sport = medals_per_country_sport.sort_values(ascending=False)
+
+
+##################---------TEEEEEEEEEEEST------###############
 
 
 # Create the Dash app
@@ -95,14 +125,32 @@ layout1 = html.Div(
 layout2 = html.Div(
     [
         html.H3(children="graf 2", style={"textAlign": "center", "color": "#636EFA"}),
-        dcc.Graph(id="rpdr_graph2", figure=px.histogram(olympicdata, x="Age", color_discrete_sequence = ['blue'], title="Age distribution")),
+        dcc.Graph(
+            id="rpdr_graph2",
+            figure=px.histogram(
+                olympicdata,
+                x="Age",
+                color_discrete_sequence=["blue"],
+                title="Age distribution",
+            ),
+        ),
     ]
 )
 
 layout3 = html.Div(
     [
         html.H3(children="Graf 3", style={"textAlign": "center", "color": "#636EFA"}),
-        dcc.Graph(id="rpdr_graph3", figure={}),
+        dcc.Graph(
+            id="rpdr_graph3",
+            figure=
+                px.bar(
+                    x=medals_per_country_sport.index,
+                    y=medals_per_country_sport,
+                    title=f"Medal distribution across countries in {sport.lower()}",
+                    labels={"x": "", "y": "Medals"},
+                )
+            ,
+        ),
     ]
 )
 
