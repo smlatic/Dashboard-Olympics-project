@@ -1,6 +1,6 @@
 import pandas as pd
 
-class load_data:
+class Load_data:
     
     olympic_data = None
     

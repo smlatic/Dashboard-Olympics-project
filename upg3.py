@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 
 import pandas as pd
 import plotly.express as px
-from load_data import load_data
+from Load_data import Load_data
 
 from plotly_graphs import plotly_graphs
 
@@ -13,9 +13,9 @@ from plotly_graphs import plotly_graphs
 
 # Loat the dataset
 
-load_data.load()
+Load_data.load()
 
-olympic_data = load_data.olympic_data
+olympic_data = Load_data.olympic_data
 
 # initialize dash app
 app = Dash(name=__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])

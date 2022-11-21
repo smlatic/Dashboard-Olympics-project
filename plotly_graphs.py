@@ -1,12 +1,12 @@
 import pandas as pd
 import plotly.express as px
-from load_data import load_data
+from Load_data import Load_data
 
 class plotly_graphs:
     @staticmethod
     def graphfig():
         
-        olympic_data = load_data.olympic_data
+        olympic_data = Load_data.olympic_data
         
         # Get data for finland only
         olympic_data_finland = olympic_data.loc[olympic_data['NOC'] == 'FIN']
