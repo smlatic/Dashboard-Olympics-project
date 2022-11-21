@@ -1,5 +1,4 @@
 # Import Libraries
-import dash
 from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
 
@@ -54,7 +53,7 @@ sidebar = html.Div(
         html.P("Analysis of Finland in the Olympic Games", className="lead"),
         dbc.Nav(
             [
-                dbc.NavLink("Season Rankings", href="/", active="exact"),
+                dbc.NavLink("Gender statistics in Finland", href="/", active="exact"),
                 dbc.NavLink("Winners", href="/page-1", active="exact"),
                 dbc.NavLink("Medals", href="/page-2", active="exact"),
                 dbc.NavLink("Yada yada", href="/page-3", active="exact"),
@@ -75,7 +74,7 @@ content = html.Div(id="page-content", style=CONTENT_STYLE)
 ##############################################################################################################
 
 # Define layouts for each page
-layout1 = html.Div(
+gender_dist = html.Div(
     [
         html.H3(
             children="Male Female contestants in various countries",
@@ -124,7 +123,7 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
-        return layout1
+        return gender_dist
     elif pathname == "/page-1":
         return layout2, layout2
     elif pathname == "/page-2":
