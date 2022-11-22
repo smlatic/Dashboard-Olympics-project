@@ -47,7 +47,7 @@ class General:
         fig = px.bar(
             x=medals_per_country_sport.index,
             y=medals_per_country_sport,
-            title=f"Medal distribution across countries in {country}",
+            title=f"Medal distribution across countries in {country.lower()}",
             labels={
                 'x': '',
                 'y': 'Medals'
