@@ -9,7 +9,7 @@ from styles import Styles
 
 # Load the dataset and initialize everything
 Load_data.load()
-
+Data.initialize()
 
 # initialize dash app
 app = Dash(name=__name__, external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
@@ -18,13 +18,13 @@ server = app.server
 
 # Define layouts for each page
 layout_general = html.Div([
-
-        html.H3(
+        #setting page heading and style
+        html.H3( 
             children="General olympic statistics",
             style={"textAlign": "center", "color": "#636EFA"},
         ),
-                
-        dcc.Dropdown(
+        #Dropdownmeny 
+        dcc.Dropdown( 
             id="sports-dropdown",
             value=Data.sports3[0],  # Preselection
             #clearable=False,
@@ -33,7 +33,7 @@ layout_general = html.Div([
         ),
         
         dcc.Graph(id="sports-graph"),
-        
+        # Our sports graph included in the dropdown meny
         dcc.Graph(
             id="age_distribution_3countries",
             figure=General.age_distribution_3sports(),
@@ -52,7 +52,7 @@ layout_general = html.Div([
 )
 
 
-
+# Our second page in the side bar with layout and graphs
 layout_finland = html.Div(
     [
         html.H3(
@@ -93,11 +93,6 @@ layout_finland = html.Div(
 )
 
 
-# Simple side bar
-# https://dash-bootstrap-components.opensource.faculty.ai/examples/simple-sidebar/
-
-
-
 # define sidebar section of HTML
 sidebar = html.Div([
         # html.H2("Drag Race: Plotly Dashboard", className="display-4"),
@@ -107,8 +102,7 @@ sidebar = html.Div([
         html.Hr(),
         html.P("Olympic Games stats", className="lead"),
         
-        dbc.Nav(
-            [
+        dbc.Nav([
                 dbc.NavLink("General", href="/", active="exact"),
                 dbc.NavLink("Finland", href="/page-1", active="exact"),
             ],
@@ -159,6 +153,6 @@ def render_page_content(pathname):
 
 
 # Run local server
-# if __name__ == "__main__":
-#     app.run_server(debug=True)
-#     app.run_server(port=8050)
+if __name__ == "__main__":
+    app.run_server(debug=True)
+    app.run_server(port=8050)
