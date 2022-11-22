@@ -14,4 +14,3 @@ numexpr
 lxml
 requests
 dash-bootstrap-components
-Load_data
