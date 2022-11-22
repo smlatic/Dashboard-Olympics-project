@@ -1,4 +1,3 @@
-import pandas as pd
 import plotly.express as px
 from Load_data import Load_data as ld
 
@@ -18,7 +17,7 @@ class Data:
     @classmethod
     def initialize(cls):
         
-        cls.olympic_data_sports = ld.olympic_data.query("Sport == 'Basketball' | Sport == 'Football' | Sport == 'Ice Hockey'")
+        cls.olympic_data_sports = ld.olympic_data.query(f"Sport == '{Data.sports3[0]}' | Sport == '{Data.sports3[1]}' | Sport == '{Data.sports3[2]}'")
         
         cls.olympic_data_sports_unique_players = Data.olympic_data_sports.drop_duplicates("Name")
         
@@ -53,6 +52,8 @@ class General:
                 'y': 'Medals'
             }
         )
+
+        # plotly.graph_objs._figure.Figure
 
         return fig
     
