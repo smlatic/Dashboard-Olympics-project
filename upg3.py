@@ -18,13 +18,13 @@ server = app.server
 
 # Define layouts for each page
 layout_general = html.Div([
-
-        html.H3(
+        #setting page heading and style
+        html.H3( 
             children="General olympic statistics",
             style={"textAlign": "center", "color": "#636EFA"},
         ),
-                
-        dcc.Dropdown(
+            #Dropdownmeny 
+        dcc.Dropdown( 
             id="sports-dropdown",
             value=Data.sports3[0],  # Preselection
             #clearable=False,
@@ -33,7 +33,7 @@ layout_general = html.Div([
         ),
         
         dcc.Graph(id="sports-graph"),
-        
+        # Our sports graph included in the dropdown meny
         dcc.Graph(
             id="age_distribution_3countries",
             figure=General.age_distribution_3sports(),
@@ -52,7 +52,7 @@ layout_general = html.Div([
 )
 
 
-
+# Our second page in the side bar with layout and graphs
 layout_finland = html.Div(
     [
         html.H3(
