@@ -6,8 +6,7 @@ import pandas as pd
 import plotly.express as px
 from Load_data import Load_data
 
-from plotly_graphs import General
-from plotly_graphs import Finland
+from plotly_graphs import Data, General, Finland
 
 
 
@@ -15,7 +14,7 @@ from plotly_graphs import Finland
 # Loat the dataset
 
 Load_data.load()
-Finland.initialize()
+Data.initialize()
 
 # initialize dash app
 app = Dash(name=__name__, external_stylesheets=[dbc.themes.LUX])
@@ -23,14 +22,42 @@ app = Dash(name=__name__, external_stylesheets=[dbc.themes.LUX])
 
 
 # Define layouts for each page
-layout_general = html.Div(
-    [
+layout_general = html.Div([
+
         html.H3(
-            children="General Overlook of olympic statistics",
+            children="General olympic statistics",
             style={"textAlign": "center", "color": "#636EFA"},
         ),
         
-        dcc.Graph(id="noc-graph", figure={})
+        dcc.Graph(
+            id="medal_distribution_country_Basketball",
+            figure=General.medal_distribution_sports('Basketball'),
+        ),
+        
+        dcc.Graph(
+            id="medal_distribution_country_Football",
+            figure=General.medal_distribution_sports('Football'),
+        ),
+                
+        dcc.Graph(
+            id="medal_distribution_country_IceHockey",
+            figure=General.medal_distribution_sports('Ice Hockey'),
+        ),
+        
+        dcc.Graph(
+            id="medal_distribution_3countries",
+            figure=General.age_distribution_3sports(),
+        ),
+        
+        dcc.Graph(
+            id="medal_distribution_3countries",
+            figure=General.height_age_distribution_3sports("Height > 195"),
+        ),
+        
+        dcc.Graph(
+            id="medal_distribution_3countries",
+            figure=General.height_age_distribution_3sports("Weight > 110"),
+        )
     ]
 )
 
@@ -65,6 +92,11 @@ layout_finland = html.Div(
             id="weight_distribution_olympics_finland",
             figure=Finland.weight_distribution_olympics_finland(),
         ),
+        
+        dcc.Graph(
+            id="medal_distribution_finland_players",
+            figure=Finland.medal_distribution_finland_players(),
+        ),
     ]
 )
 
@@ -79,7 +111,7 @@ SIDEBAR_STYLE = {
     "top": 0,
     "left": 0,
     "bottom": 0,
-    "width": "32rem",
+    "width": "25rem",
     "padding": "2rem 1rem",
     "background-color": "#f8f9fa",
 }
