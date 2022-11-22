@@ -4,6 +4,9 @@ from Load_data import Load_data as ld
 
 
 class Data:
+    
+    sports3 = ['Basketball', 'Football', 'Ice Hockey']
+    
     olympic_data_sports = None
     
     olympic_data_sports_unique_players = None

@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 from Load_data import Load_data
+from styles import Styles
 
 from plotly_graphs import Data, General, Finland
 
@@ -19,6 +20,7 @@ Data.initialize()
 # initialize dash app
 app = Dash(name=__name__, external_stylesheets=[dbc.themes.LUX])
 
+#server = app.server
 
 
 # Define layouts for each page
@@ -28,21 +30,16 @@ layout_general = html.Div([
             children="General olympic statistics",
             style={"textAlign": "center", "color": "#636EFA"},
         ),
-        
-        dcc.Graph(
-            id="medal_distribution_country_Basketball",
-            figure=General.medal_distribution_sports('Basketball'),
-        ),
-        
-        dcc.Graph(
-            id="medal_distribution_country_Football",
-            figure=General.medal_distribution_sports('Football'),
-        ),
                 
-        dcc.Graph(
-            id="medal_distribution_country_IceHockey",
-            figure=General.medal_distribution_sports('Ice Hockey'),
+        dcc.Dropdown(
+            id="sports-dropdown",
+            value=Data.sports3[0],  # Preselection
+            #clearable=False,
+            options=[{"label": i, "value": i} for i in Data.sports3],
+            style={"width": "75%", "margin": "auto"},
         ),
+        
+        dcc.Graph(id="sports-graph", figure={}),
         
         dcc.Graph(
             id="medal_distribution_3countries",
@@ -57,9 +54,13 @@ layout_general = html.Div([
         dcc.Graph(
             id="medal_distribution_3countries",
             figure=General.height_age_distribution_3sports("Weight > 110"),
-        )
+        ),
     ]
 )
+
+
+
+
 
 layout_finland = html.Div(
     [
@@ -105,23 +106,6 @@ layout_finland = html.Div(
 # https://dash-bootstrap-components.opensource.faculty.ai/examples/simple-sidebar/
 
 
-# the style arguments for the sidebar
-SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": 0,
-    "left": 0,
-    "bottom": 0,
-    "width": "25rem",
-    "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
-}
-
-# the styles for the main content position it to the right of the sidebar and add some padding.
-CONTENT_STYLE = {
-    "margin-left": "32rem",
-    "margin-right": "2rem",
-    "padding": "2rem 1rem",
-}
 
 # define sidebar section of HTML
 sidebar = html.Div([
@@ -141,11 +125,11 @@ sidebar = html.Div([
             pills=True,
         ),
     ],
-    style=SIDEBAR_STYLE,
+    style=Styles.sidebar,
 )
 
 # Define content section of HTML
-content = html.Div(id="page-content", style=CONTENT_STYLE)
+content = html.Div(id="page-content", style=Styles.content)
 
 
 # INDEX LAYOUT
@@ -172,19 +156,13 @@ def render_page_content(pathname):
     )
 
 
-# # Callback function for page layout 1
-# @app.callback(
-#     Output(component_id="noc-graph", component_property="figure"),
-#     Input(component_id="noc-dropdown", component_property="value"),
-# )
-# def update_graph(selected_noc):
-#     filtered_noc = olympic_data[olympic_data["NOC"] == selected_noc]
-#     pie_fig = px.pie(
-#         filtered_noc,
-#         names="Sex",
-#         title=f"Percentages of Female/Male Athletes in {selected_noc}",
-#     )
-#     return pie_fig
+# Callback function for medal histogram
+@app.callback(
+    Output(component_id="sports-graph", component_property="figure"),
+    Input(component_id="sports-dropdown", component_property="value"),
+)
+def update_sports_graph(selected_sport):
+    return General.medal_distribution_sports(selected_sport)
 
 
 # Run local server

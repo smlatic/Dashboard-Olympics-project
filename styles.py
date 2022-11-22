@@ -1,7 +1,16 @@
-import pandas as pd
-import plotly.express as px
-from Load_data import Load_data as ld
-
-
-class Data:
-    olympic_data_sports = 
+class Styles:
+    sidebar = {
+        "position": "fixed",
+        "top": 0,
+        "left": 0,
+        "bottom": 0,
+        "width": "25rem",
+        "padding": "2rem 1rem",
+        "background-color": "#f8f9fa",
+    }
+    
+    content = {
+        "margin-left": "32rem",
+        "margin-right": "2rem",
+        "padding": "2rem 1rem",
+    }
