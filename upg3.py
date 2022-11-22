@@ -2,25 +2,18 @@ from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 
-import pandas as pd
-import plotly.express as px
 from Load_data import Load_data
+from plotly_graphs import Data, General, Finland
 from styles import Styles
 
-from plotly_graphs import Data, General, Finland
 
-
-
-
-# Loat the dataset
-
+# Load the dataset and initialize everything
 Load_data.load()
-Data.initialize()
+
 
 # initialize dash app
-app = Dash(name=__name__, external_stylesheets=[dbc.themes.LUX])
-
-#server = app.server
+app = Dash(name=__name__, external_stylesheets=[dbc.themes.LUX], suppress_callback_exceptions=True)
+server = app.server
 
 
 # Define layouts for each page
@@ -39,26 +32,24 @@ layout_general = html.Div([
             style={"width": "75%", "margin": "auto"},
         ),
         
-        dcc.Graph(id="sports-graph", figure={}),
+        dcc.Graph(id="sports-graph"),
         
         dcc.Graph(
-            id="medal_distribution_3countries",
+            id="age_distribution_3countries",
             figure=General.age_distribution_3sports(),
         ),
         
         dcc.Graph(
-            id="medal_distribution_3countries",
+            id="height_distribution_3countries",
             figure=General.height_age_distribution_3sports("Height > 195"),
         ),
         
         dcc.Graph(
-            id="medal_distribution_3countries",
+            id="weight_distribution_3countries",
             figure=General.height_age_distribution_3sports("Weight > 110"),
         ),
     ]
 )
-
-
 
 
 
@@ -128,9 +119,19 @@ sidebar = html.Div([
     style=Styles.sidebar,
 )
 
+
+
+
+# Callback function for medal histogram
+@app.callback(
+    Output(component_id="sports-graph", component_property="figure"),
+    Input(component_id="sports-dropdown", component_property="value"),
+)
+def update_sports_graph(selected_sport):
+    return General.medal_distribution_sports(selected_sport)
+
 # Define content section of HTML
 content = html.Div(id="page-content", style=Styles.content)
-
 
 # INDEX LAYOUT
 app.layout = html.Div(children=[dcc.Location(id="url"), sidebar, content])
@@ -155,14 +156,6 @@ def render_page_content(pathname):
         ]
     )
 
-
-# Callback function for medal histogram
-@app.callback(
-    Output(component_id="sports-graph", component_property="figure"),
-    Input(component_id="sports-dropdown", component_property="value"),
-)
-def update_sports_graph(selected_sport):
-    return General.medal_distribution_sports(selected_sport)
 
 
 # Run local server
